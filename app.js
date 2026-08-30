@@ -54,10 +54,10 @@ let items = [];
 let receivedItems = [];
 let selectedItemId = null;
 
-const supabaseClient =
-  window.supabase && SUPABASE_ANON_KEY !== '여기에_네_PUBLISHABLE_KEY'
-    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    : null;
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 const itemList = document.getElementById('itemList');
 const adminCurrentTableBody = document.getElementById('adminCurrentTableBody');
