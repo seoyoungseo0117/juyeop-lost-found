@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>학교 분실물 관리</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-label="Juyeop High School logo">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="46" fill="#e3a63a" />
+              <circle cx="50" cy="50" r="32" fill="#f6f0e7" />
+              <path d="M22 64 L38 42 L49 54 L60 34 L78 64 Z" fill="#4f7f52" />
+              <path d="M27 64 L42 47 L50 56 L61 39 L73 64" fill="none" stroke="#4f7f52" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="brand-copy">
+            <p class="eyebrow">Juyeop High School</p>
+            <h1 class="main-title">
+              <span>분실물을 찾아드립니다</span>
+            </h1>
+            <p class="subtitle">잃어버린 물건이 다시 주인을 만날 수 있도록</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="openRegisterModal" class="primary-btn">분실물 등록</button>
+          <button id="openAdminLoginBtn" class="secondary-btn">관리자 로그인</button>
+        </div>
+      </header>
+
+      <section class="toolbar">
+        <label class="search-box">
+          <span>검색</span>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="물건 이름, 장소, 교무실로 검색"
+          />
+        </label>
+        <div class="summary-box">
+          <span>보관 중</span>
+          <strong id="itemCount">0개</strong>
+        </div>
+      </section>
+
+      <main>
+        <section class="section-header">
+          <h2>현재 보관 중인 분실물</h2>
+        </section>
+
+        <div id="itemList" class="item-grid" aria-live="polite"></div>
+
+        <section id="adminPanel" class="admin-panel hidden">
+          <div class="section-header admin-header">
+            <h2>관리자 확인</h2>
+            <button id="logoutAdminBtn" class="secondary-btn small-btn">로그아웃</button>
+          </div>
+
+          <div class="admin-grid">
+            <div class="table-card">
+              <h3>등록된 분실물 확인</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>물건명</th>
+                      <th>습득 장소</th>
+                      <th>보관 교무실</th>
+                      <th>습득 날짜</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminCurrentTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <h3>수령 완료 기록</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>물건명</th>
+                      <th>학번</th>
+                      <th>이름</th>
+                      <th>수령 날짜</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="receivedTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="registerModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>분실물 등록</h3>
+          <button id="closeRegisterModal" class="icon-btn" aria-label="닫기">×</button>
+        </div>
+
+        <form id="itemForm" class="item-form">
+          <label>
+            <span>사진</span>
+            <input
+              id="photoInput"
+              type="file"
+              name="image"
+              accept="image/*"
+              capture="environment"
+            />
+            <small class="helper-text">사진을 선택하거나 카메라로 바로 찍어 등록할 수 있어요.</small>
+          </label>
+
+          <label>
+            <span>물건 이름</span>
+            <input type="text" name="name" placeholder="예: 검정 가방" required />
+          </label>
+
+          <label>
+            <span>습득 장소</span>
+            <input type="text" name="location" placeholder="예: 2층 복도" required />
+          </label>
+
+          <label>
+            <span>습득 날짜</span>
+            <input type="date" name="date" required />
+          </label>
+
+          <label>
+            <span>보관 교무실</span>
+            <select name="room" id="roomSelect" required>
+              <option value="">교무실 선택</option>
+              <option value="학생안전부">학생안전부</option>
+              <option value="제1교무실">제1교무실</option>
+              <option value="제2교무실">제2교무실</option>
+              <option value="1학년부">1학년부</option>
+              <option value="2학년부">2학년부</option>
+              <option value="3학년부">3학년부</option>
+            </select>
+            <small class="helper-text">QR 코드로 들어오면 자동으로 선택됩니다.</small>
+          </label>
+
+          <button type="submit" class="primary-btn wide">등록하기</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="receiveModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>분실물 수령</h3>
+          <button id="closeReceiveModal" class="icon-btn" aria-label="닫기">×</button>
+        </div>
+
+        <form id="receiveForm" class="item-form">
+          <label>
+            <span>학번</span>
+            <input type="text" name="studentId" placeholder="예: 20231234" required />
+          </label>
+
+          <label>
+            <span>이름</span>
+            <input type="text" name="studentName" placeholder="예: 홍길동" required />
+          </label>
+
+          <button type="submit" class="primary-btn wide">수령 완료</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="adminLoginModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>관리자 로그인</h3>
+          <button id="closeAdminLoginModal" class="icon-btn" aria-label="닫기">×</button>
+        </div>
+
+        <form id="adminLoginForm" class="item-form">
+          <label>
+            <span>비밀번호</span>
+            <input type="password" name="adminPassword" placeholder="비밀번호를 입력하세요" required />
+          </label>
+
+          <button type="submit" class="primary-btn wide">로그인</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
