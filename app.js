@@ -496,6 +496,96 @@ itemForm.addEventListener('submit', (event) => {
   studentInfoModal.classList.remove('hidden');
   studentInfoModal.setAttribute('aria-hidden', 'false');
 });
+studentInfoForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const submitButton = studentInfoForm.querySelector(
+    'button[type="submit"]',
+  );
+
+  submitButton.disabled = true;
+
+  try {
+    if (!pendingItemFormData) {
+      throw new Error('분실물 등록 정보가 없습니다.');
+    }
+
+    const studentFormData = new FormData(studentInfoForm);
+
+    const studentId = String(
+      studentFormData.get('studentId') || '',
+    ).trim();
+
+    const studentName = String(
+      studentFormData.get('studentName') || '',
+    ).trim();
+
+    if (!studentId || !studentName) {
+      throw new Error('학번과 이름을 입력해주세요.');
+    }
+
+    const name = String(
+      pendingItemFormData.get('name') || '',
+    ).trim();
+
+    const location = String(
+      pendingItemFormData.get('location') || '',
+    ).trim();
+
+    const room = String(
+      pendingItemFormData.get('room') || '',
+    ).trim();
+
+    const date = String(
+      pendingItemFormData.get('date') || '',
+    );
+
+    const fileInput = document.getElementById('photoInput');
+    const selectedFile = fileInput?.files?.[0] || null;
+
+    let imageUrl = null;
+
+    if (selectedFile) {
+      imageUrl = await uploadImage(selectedFile);
+    }
+
+    const { error } = await supabaseClient
+      .from('lost_items')
+      .insert({
+        title: name,
+        student_id: studentId,
+        student_name: studentName,
+        location: location,
+        room: room,
+        found_date: date,
+        status: '보관 중',
+        image_url: imageUrl,
+      });
+
+    if (error) {
+      throw new Error(
+        `분실물 저장 실패: ${error.message}`,
+      );
+    }
+
+    pendingItemFormData = null;
+    studentInfoForm.reset();
+
+    studentInfoModal.classList.add('hidden');
+    studentInfoModal.setAttribute('aria-hidden', 'true');
+
+    await loadData();
+
+    alert('분실물이 등록되었습니다.');
+  } catch (error) {
+    console.error(error);
+    alert(
+      error.message || '분실물 등록에 실패했습니다.',
+    );
+  } finally {
+    submitButton.disabled = false;
+  }
+});
 /* ---------------------------
    수령 완료
 ---------------------------- */
