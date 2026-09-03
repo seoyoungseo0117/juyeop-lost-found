@@ -549,7 +549,7 @@ studentInfoForm.addEventListener('submit', async (event) => {
     );
 
     const selectedFile =
-      pendingItemFormData.get('photo') || null;
+      pendingItemFormData.get('image') || null;
 
     let imageUrl = null;
 
