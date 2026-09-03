@@ -23,7 +23,7 @@ const PLACEHOLDER_IMAGE =
 const initialItems = [
   {
     id: 'local-1',
-    name: '검정 가방',
+    name: '빨간 신발',
     location: '2층 복도',
     room: '교무실 1',
     date: '2026-08-25',
@@ -32,7 +32,7 @@ const initialItems = [
   },
   {
     id: 'local-2',
-    name: '파란색 물병',
+    name: '초록색 물병',
     location: '도서관 1층',
     room: '교무실 2',
     date: '2026-08-27',
