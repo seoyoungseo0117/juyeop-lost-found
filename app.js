@@ -515,6 +515,8 @@ itemForm.addEventListener('submit', async (event) => {
       .from('lost_items')
       .insert({
         title: name,
+        student_id: studentId,
+        student_name: studentName,
         location: location,
         room: room,
         found_date: date,
