@@ -503,7 +503,14 @@ itemForm.addEventListener('submit', (event) => {
 /* ---------------------------
    등록 학생 정보 입력
 ---------------------------- */
-
+document
+  .getElementById('closeStudentInfoModal')
+  .addEventListener('click', () => {
+    studentInfoModal.classList.add('hidden');
+    studentInfoModal.setAttribute('aria-hidden', 'true');
+    studentInfoForm.reset();
+    pendingItemFormData = null;
+  });
 studentInfoForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
