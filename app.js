@@ -471,6 +471,10 @@ async function uploadImage(file) {
    분실물 등록
 ---------------------------- */
 
+/* ---------------------------
+   분실물 등록
+---------------------------- */
+
 itemForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -486,16 +490,19 @@ itemForm.addEventListener('submit', (event) => {
     return;
   }
 
-  // 첫 번째 등록 정보를 잠시 보관
   pendingItemFormData = formData;
 
-  // 첫 번째 창 닫기
   closeRegisterModal();
 
-  // 학번·이름 입력창 열기
   studentInfoModal.classList.remove('hidden');
   studentInfoModal.setAttribute('aria-hidden', 'false');
 });
+
+
+/* ---------------------------
+   등록 학생 정보 입력
+---------------------------- */
+
 studentInfoForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -540,12 +547,16 @@ studentInfoForm.addEventListener('submit', async (event) => {
       pendingItemFormData.get('date') || '',
     );
 
-    const fileInput = document.getElementById('photoInput');
-    const selectedFile = fileInput?.files?.[0] || null;
+    const selectedFile =
+      pendingItemFormData.get('photo') || null;
 
     let imageUrl = null;
 
-    if (selectedFile) {
+    if (
+      selectedFile &&
+      selectedFile instanceof File &&
+      selectedFile.size > 0
+    ) {
       imageUrl = await uploadImage(selectedFile);
     }
 
@@ -569,6 +580,7 @@ studentInfoForm.addEventListener('submit', async (event) => {
     }
 
     pendingItemFormData = null;
+
     studentInfoForm.reset();
 
     studentInfoModal.classList.add('hidden');
@@ -586,7 +598,10 @@ studentInfoForm.addEventListener('submit', async (event) => {
     submitButton.disabled = false;
   }
 });
+
 /* ---------------------------
+   수령 완료
+---------------------------- *//* ---------------------------
    수령 완료
 ---------------------------- */
 
