@@ -471,82 +471,31 @@ async function uploadImage(file) {
    분실물 등록
 ---------------------------- */
 
-itemForm.addEventListener('submit', async (event) => {
+itemForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  const submitButton = itemForm.querySelector(
-    'button[type="submit"]',
-  );
+  const formData = new FormData(itemForm);
 
-  submitButton.disabled = true;
+  const name = String(formData.get('name') || '').trim();
+  const location = String(formData.get('location') || '').trim();
+  const room = String(formData.get('room') || '').trim();
+  const date = String(formData.get('date') || '');
 
-  try {
-    if (!supabaseClient) {
-      throw new Error(
-        'Supabase 연결이 설정되지 않았습니다. Publishable Key를 확인해주세요.',
-      );
-    }
-
-    const formData = new FormData(itemForm);
-
-    const name = String(formData.get('name') || '').trim();
-    const location = String(formData.get('location') || '').trim();
-    const room = String(formData.get('room') || '').trim();
-    const date = String(formData.get('date') || '');
-
-    const fileInput = document.getElementById('photoInput');
-    const selectedFile = fileInput?.files?.[0] || null;
-
-    if (!name || !location || !room || !date) {
-      throw new Error('필수 항목을 모두 입력해주세요.');
-    }
-
-    /*
-     * 사진이 있으면 먼저 Storage에 업로드한다.
-     */
-    let imageUrl = null;
-
-    if (selectedFile) {
-      imageUrl = await uploadImage(selectedFile);
-    }
-
-    /*
-     * 그 다음 DB에 분실물 정보를 저장한다.
-     */
-    const { error } = await supabaseClient
-      .from('lost_items')
-      .insert({
-        title: name,
-        student_id: studentId,
-        student_name: studentName,
-        location: location,
-        room: room,
-        found_date: date,
-        status: '보관 중',
-        image_url: imageUrl,
-      });
-
-    if (error) {
-      console.error('Database insert error:', error);
-
-      throw new Error(
-        `분실물 저장 실패: ${error.message}`,
-      );
-    }
-
-    await loadData();
-
-    closeRegisterModal();
-
-    alert('분실물이 등록되었습니다.');
-  } catch (error) {
-    console.error(error);
-    alert(error.message || '분실물 등록에 실패했습니다.');
-  } finally {
-    submitButton.disabled = false;
+  if (!name || !location || !room || !date) {
+    alert('필수 항목을 모두 입력해주세요.');
+    return;
   }
-});
 
+  // 첫 번째 등록 정보를 잠시 보관
+  pendingItemFormData = formData;
+
+  // 첫 번째 창 닫기
+  closeRegisterModal();
+
+  // 학번·이름 입력창 열기
+  studentInfoModal.classList.remove('hidden');
+  studentInfoModal.setAttribute('aria-hidden', 'false');
+});
 /* ---------------------------
    수령 완료
 ---------------------------- */
@@ -557,7 +506,8 @@ receiveForm.addEventListener('submit', async (event) => {
   if (selectedItemId === null) {
     return;
   }
-
+let pendingItemFormData = null;
+  
   const submitButton = receiveForm.querySelector(
     'button[type="submit"]',
   );
