@@ -53,6 +53,7 @@ const initialItems = [
 let items = [];
 let receivedItems = [];
 let selectedItemId = null;
+let pendingItemFormData = null;
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
@@ -611,7 +612,6 @@ receiveForm.addEventListener('submit', async (event) => {
   if (selectedItemId === null) {
     return;
   }
-let pendingItemFormData = null;
   
   const submitButton = receiveForm.querySelector(
     'button[type="submit"]',
