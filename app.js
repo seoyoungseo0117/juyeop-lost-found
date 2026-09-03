@@ -820,16 +820,32 @@ receivedTableBody.addEventListener(
         throw new Error('Supabase 연결이 설정되지 않았습니다.');
       }
 
-      const { error } = await supabaseClient
-        .from('received_items')
-        .delete()
-        .eq('id', recordId);
+     const { error: deleteError } = await supabaseClient
+  .from('received_items')
+  .delete()
+  .eq('id', recordId);
 
-      if (error) {
-        throw error;
-      }
+if (deleteError) {
+  throw deleteError;
+}
 
-      await loadData();
+/*
+ * 수령 기록을 삭제하면
+ * 해당 분실물을 다시 보관 중으로 복구한다.
+ */
+const { error: restoreError } = await supabaseClient
+  .from('lost_items')
+  .update({
+    status: '보관 중',
+  })
+  .eq('title', record.itemName)
+  .eq('status', '수령 완료');
+
+if (restoreError) {
+  throw restoreError;
+}
+
+await loadData();
     } catch (error) {
       console.error(error);
       alert(`삭제 실패: ${error.message}`);
