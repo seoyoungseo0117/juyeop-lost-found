@@ -68,11 +68,13 @@ const searchInput = document.getElementById('searchInput');
 const registerModal = document.getElementById('registerModal');
 const receiveModal = document.getElementById('receiveModal');
 const adminLoginModal = document.getElementById('adminLoginModal');
+const studentInfoModal = document.getElementById('studentInfoModal');
 const adminPanel = document.getElementById('adminPanel');
 
 const itemForm = document.getElementById('itemForm');
 const receiveForm = document.getElementById('receiveForm');
 const adminLoginForm = document.getElementById('adminLoginForm');
+const studentInfoForm = document.getElementById('studentInfoForm');
 
 const roomSelect = document.getElementById('roomSelect');
 
