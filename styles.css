@@ -693,7 +693,7 @@ h1 {
 }
 
 .notice-box strong {
-  color: #4b6bff;
+  color: var(--primary-dark);
 }
 
 .notice-close {
@@ -701,8 +701,14 @@ h1 {
   padding: 12px;
   border: 0;
   border-radius: 10px;
-  background: #4b6bff;
-  color: white;
+  background: var(--primary);
+  color: #fffaf1;
   font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.notice-close:hover {
+  background: var(--primary-dark);
 }
