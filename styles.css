@@ -661,3 +661,48 @@ h1 {
     font-size: 16px;
   }
 }
+.registration-notice {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+}
+
+.notice-box {
+  width: min(90%, 380px);
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+}
+
+.notice-box h3 {
+  margin: 0 0 12px;
+  font-size: 21px;
+}
+
+.notice-box p {
+  margin: 0 0 20px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.notice-box strong {
+  color: #4b6bff;
+}
+
+.notice-close {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #4b6bff;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
