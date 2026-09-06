@@ -594,9 +594,30 @@ studentInfoForm.addEventListener('submit', async (event) => {
     studentInfoModal.classList.add('hidden');
     studentInfoModal.setAttribute('aria-hidden', 'true');
 
-    await loadData();
+   await loadData();
 
-    alert('분실물이 등록되었습니다.');
+const notice = document.createElement('div');
+
+notice.className = 'registration-notice';
+
+notice.innerHTML = `
+  <div class="notice-box">
+    <h3>등록이 완료되었습니다.</h3>
+    <p>
+      물건을 <strong>${escapeHtml(room)}</strong>에 가져가
+      보관함에 맡겨주세요.
+    </p>
+    <button type="button" class="notice-close">확인</button>
+  </div>
+`;
+
+document.body.appendChild(notice);
+
+notice
+  .querySelector('.notice-close')
+  .addEventListener('click', () => {
+    notice.remove();
+  });
   } catch (error) {
     console.error(error);
     alert(
