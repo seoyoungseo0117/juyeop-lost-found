@@ -594,31 +594,33 @@ studentInfoForm.addEventListener('submit', async (event) => {
     studentInfoModal.classList.add('hidden');
     studentInfoModal.setAttribute('aria-hidden', 'true');
 
-   await loadData();
+     await loadData();
 
-const notice = document.createElement('div');
+    const notice = document.createElement('div');
+    notice.className = 'registration-notice';
 
-notice.className = 'registration-notice';
+    const selectedRoom = String(
+      roomSelect?.value || room || ''
+    ).trim();
 
-notice.innerHTML = `
-  <div class="notice-box">
-    <h3>등록이 완료되었습니다.</h3>
-    <p>
-      물건을 <strong>${escapeHtml(room)}</strong>에 가져가
-      보관함에 맡겨주세요.
-    </p>
-    <button type="button" class="notice-close">확인</button>
-  </div>
-`;
+    notice.innerHTML = `
+      <div class="notice-box">
+        <h3>등록이 완료되었습니다.</h3>
+        <p>
+          물건을 <strong>${escapeHtml(selectedRoom)}</strong>에 가져가
+          보관함에 맡겨주세요.
+        </p>
+        <button type="button" class="notice-close">확인</button>
+      </div>
+    `;
 
-document.body.appendChild(notice);
+    document.body.appendChild(notice);
 
-notice
-  .querySelector('.notice-close')
-  .addEventListener('click', () => {
-    notice.remove();
-  });
-  } catch (error) {
+    notice
+      .querySelector('.notice-close')
+      .addEventListener('click', () => {
+        notice.remove();
+      });  } catch (error) {
     console.error(error);
     alert(
       error.message || '분실물 등록에 실패했습니다.',
