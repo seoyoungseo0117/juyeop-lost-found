@@ -363,6 +363,11 @@ async function loadData() {
     items = (dbItems || []).map((row) => ({
       id: row.id,
       name: row.title,
+
+      // 등록 학생 정보
+      studentId: row.student_id || '',
+      studentName: row.student_name || '',
+
       location: row.location || '',
       room: row.room || '',
       date: row.found_date || '',
