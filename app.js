@@ -247,7 +247,6 @@ function renderCurrentAdminTable() {
     )
     .join('');
 }
-}
 
 function renderReceivedTable() {
   if (!receivedTableBody) return;
