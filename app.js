@@ -209,7 +209,7 @@ function renderCurrentAdminTable() {
   if (!items.length) {
     adminCurrentTableBody.innerHTML = `
       <tr>
-        <td colspan="5">등록된 분실물이 없습니다.</td>
+        <td colspan="7">등록된 분실물이 없습니다.</td>
       </tr>
     `;
     return;
@@ -220,9 +220,15 @@ function renderCurrentAdminTable() {
       (item) => `
         <tr>
           <td>${escapeHtml(item.name)}</td>
+
+          <!-- 등록 학생 정보 -->
+          <td>${escapeHtml(item.studentId)}</td>
+          <td>${escapeHtml(item.studentName)}</td>
+
           <td>${escapeHtml(item.location)}</td>
           <td>${escapeHtml(item.room)}</td>
           <td>${formatDate(item.date)}</td>
+
           <td>
             ${
               String(item.id).startsWith('local-')
@@ -240,6 +246,7 @@ function renderCurrentAdminTable() {
       `,
     )
     .join('');
+}
 }
 
 function renderReceivedTable() {
