@@ -199,7 +199,7 @@ function renderItems(filteredItems = items) {
       `,
     )
     .join('');
-
+}
   updateCount();
 }
 
