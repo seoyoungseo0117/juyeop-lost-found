@@ -197,9 +197,9 @@ function renderItems(filteredItems = items) {
           </div>
         </article>
       `,
-    )
+        )
     .join('');
-}
+
   updateCount();
 }
 
